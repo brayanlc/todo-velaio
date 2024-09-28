@@ -1,50 +1,87 @@
-<h2>Crear tarea</h2>
-
 <form class="task-form" [formGroup]="todoForm">
+  <h2>Crear tarea</h2>
+
   <div class="form-group">
     <label for="task-name">Nombre de la tarea</label>
-    <input type="text" id="task-name" />
+    <input type="text" id="task-name" formControlName="name" />
+    <small *ngIf="getError('name', 'required')">Este campo es requerido</small>
   </div>
 
   <div class="form-group">
     <label for="task-deadline">Fecha límite de la tarea</label>
-    <input type="date" id="task-deadline" />
+    <input type="date" id="task-deadline" formControlName="deadline" />
   </div>
 
-  <div class="associated-people">
-    <h3>Personas asociadas</h3>
+  <h3>Personas asociadas</h3>
 
+  <div class="responsibles">
     <ng-container formArrayName="responsibles">
       <div
         class="person-details"
-        *ngFor="let person of responsables.controls; let i = index"
+        *ngFor="
+          let person of responsables.controls;
+          let i = index;
+          let lastPerson = last
+        "
+        [formGroupName]="i"
       >
         <div class="form-group">
           <label for="person-name">Nombre completo</label>
-          <input type="text" id="person-name" />
+          <input type="text" id="person-name" formControlName="fullName" />
+          <small *ngIf="getArrayError(person, 'fullName', 'required')">
+            Este campo es requerido
+          </small>
+
+          <small *ngIf="getArrayError(person, 'fullName', 'minlength')">
+            El nombre debe tener al menos 5 caracteres
+          </small>
         </div>
 
         <div class="form-group">
           <label for="person-age">Edad</label>
-          <input type="text" id="person-age" />
+          <input type="text" id="person-age" formControlName="age" />
+
+          <small *ngIf="getArrayError(person, 'age', 'required')">
+            Este campo es requerido
+          </small>
+
+          <small *ngIf="getArrayError(person, 'age', 'min')">
+            La edad debe ser mayor a 18 años
+          </small>
         </div>
 
+        <h4>Habilidades:</h4>
         <div class="skills-section">
-          <h4>Habilidades:</h4>
           <ng-container formArrayName="skills">
             <div
               class="skill-input"
-              *ngFor="let skill of skills(i).controls; let j = index"
+              *ngFor="
+                let skill of skills(i).controls;
+                let j = index;
+                let firstSkill = first
+              "
+              [formGroupName]="j"
             >
-              <label for="skill">Habilidad</label>
-              <input type="text" id="skill" />
-              <button type="button" class="add-skill" (click)="addSkill(i)">
+              <div class="form-group">
+                <input type="text" formControlName="skill" />
+                <small *ngIf="getArrayError(skill, 'skill', 'required')">
+                  La edad debe ser mayor a 18 años
+                </small>
+              </div>
+
+              <button
+                type="button"
+                class="add-skill"
+                (click)="addSkill(i, j)"
+                *ngIf="firstSkill"
+              >
                 Agregar
               </button>
               <button
                 type="button"
-                class="remove-skill"
+                class="delete"
                 (click)="removeSkill(i, j)"
+                *ngIf="!firstSkill"
               >
                 Eliminar
               </button>
@@ -52,14 +89,15 @@
           </ng-container>
         </div>
 
-        <button type="button" class="add-person" (click)="addResponsible()">
-          Agregar persona
-        </button>
         <button
           type="button"
-          class="remove-person"
-          (click)="removeResponsible(i)"
+          class="add-person"
+          (click)="addResponsible()"
+          *ngIf="lastPerson"
         >
+          Agregar persona
+        </button>
+        <button type="button" class="delete" (click)="removeResponsible(i)">
           Eliminar persona
         </button>
       </div>

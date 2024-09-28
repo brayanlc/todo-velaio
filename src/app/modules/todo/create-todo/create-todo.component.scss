@@ -3,43 +3,91 @@ $secondary-color: #f4f4f4;
 $border-radius: 5px;
 $padding: 10px;
 $margin: 15px 0;
-$font-size: 16px;
+$font-size: 14px;
 
 .task-form {
   background-color: $secondary-color;
-  padding: $padding * 2;
+  padding: 2rem;
   border-radius: $border-radius;
   max-width: 500px;
   margin: 0 auto;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
+  button {
+    padding: $padding;
+    margin-left: $padding / 2;
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &.delete {
+      background-color: #ff4d4d;
+
+      &:hover {
+        background-color: darken(#ff4d4d, 10%);
+      }
+    }
+  }
+
   h2 {
     text-align: center;
     margin-bottom: $margin;
-    color: $primary-color;
+
+    &.title {
+      margin-top: 0;
+    }
+
+    &.subtitle {
+      margin-top: 0;
+      color: $primary-color;
+    }
   }
 
   .form-group {
-    margin-bottom: $margin;
+    margin-bottom: 0.9rem;
+    position: relative;
 
     label {
       display: block;
       font-size: $font-size;
-      margin-bottom: 5px;
+      margin-bottom: 2px;
       color: #333;
     }
 
-    input[type="text"],
-    input[type="date"] {
+    small {
+      color: #ff4d4d;
+      font-size: 0.8rem;
+      position: absolute;
+      bottom: -.8rem;
+      left: 0;
+    }
+
+    input[type='text'],
+    input[type='date'] {
       width: 100%;
-      padding: $padding;
+      padding: $padding * 0.9;
       border: 1px solid #ccc;
       border-radius: $border-radius;
       font-size: $font-size;
+
+      &.error {
+        border-color: #ff4d4d;
+      }
     }
   }
 
-  .associated-people {
+  .responsibles {
     background-color: #fff;
     padding: $padding;
     border: 1px solid #ccc;
@@ -53,6 +101,9 @@ $font-size: 16px;
 
     .person-details {
       margin-bottom: $margin;
+      border-bottom: 1px solid #868686;
+      padding-bottom: 1rem;
+      padding-top: 1rem;
 
       .form-group {
         margin-bottom: $padding;
@@ -65,6 +116,7 @@ $font-size: 16px;
 
     .skills-section {
       margin-top: $margin;
+      margin-bottom: 10px;
 
       h4 {
         color: $primary-color;
@@ -74,33 +126,15 @@ $font-size: 16px;
       .skill-input {
         display: flex;
         align-items: center;
+        gap: 1rem;
+        margin: 0 0 10px;
 
-        label {
-          margin-right: $padding;
-          flex-shrink: 0;
-        }
+        .form-group {
+          margin: 0;
+          flex: 1;
 
-        input[type="text"] {
-          flex-grow: 1;
-          margin-right: $padding;
-        }
-
-        button {
-          padding: $padding;
-          margin-left: $padding / 2;
-          background-color: $primary-color;
-          color: #fff;
-          border: none;
-          border-radius: $border-radius;
-          cursor: pointer;
-          transition: background-color 0.3s;
-
-          &:hover {
-            background-color: darken($primary-color, 10%);
-          }
-
-          &:first-of-type {
-            margin-left: 0;
+          input {
+            margin: 0;
           }
         }
       }
