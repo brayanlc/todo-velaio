@@ -39,7 +39,7 @@
 
         <div class="form-group">
           <label for="person-age">Edad</label>
-          <input type="text" id="person-age" formControlName="age" />
+          <input type="number" id="person-age" formControlName="age" />
 
           <small *ngIf="getArrayError(person, 'age', 'required')">
             Este campo es requerido
@@ -65,7 +65,7 @@
               <div class="form-group">
                 <input type="text" formControlName="skill" />
                 <small *ngIf="getArrayError(skill, 'skill', 'required')">
-                  La edad debe ser mayor a 18 años
+                  Este campo es requerido
                 </small>
               </div>
 

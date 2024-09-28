@@ -5,9 +5,15 @@ import {
   FormArray,
   FormBuilder,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
+import { Todo } from '../../../store/todo.model';
+import * as TodoActions from '../../../store/actions';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/store';
 
 @Component({
   selector: 'app-create-todo',
@@ -18,12 +24,12 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class CreateTodoComponent {
   private fb: FormBuilder = inject(FormBuilder);
+  private store = inject(Store<AppState>);
 
-  public todoForm = this.fb.group({
-    id: uuidv4(),
+  public todoForm = this.fb.nonNullable.group({
     name: ['', Validators.required],
     deadline: [''],
-    responsibles: this.fb.array([this.newResponsible()]),
+    responsibles: this.fb.array([this.newResponsible()], uniqueNamesValidator),
     success: [false],
   });
 
@@ -89,8 +95,37 @@ export class CreateTodoComponent {
 
   createTask() {
     this.todoForm.markAllAsTouched();
-    console.log(this.todoForm.value);
-    console.log(this.todoForm.errors);
-    console.log(this.todoForm.invalid);
+    if (this.todoForm.invalid) {
+      if (this.todoForm.controls.responsibles.errors) {
+        alert('Hay responsables duplicados');
+      }
+      return;
+    }
+
+    const todo: Todo = this.todoForm.value as Todo;
+    this.store.dispatch(
+      TodoActions.addTodo({
+        todo: { ...todo, id: uuidv4() },
+      }),
+    );
   }
 }
+
+export const uniqueNamesValidator: ValidatorFn = (
+  control: AbstractControl,
+): ValidationErrors | null => {
+  if (!(control instanceof FormArray)) {
+    return null;
+  }
+
+  const names = control.controls.map(
+    (c) => c.value?.fullName?.toLowerCase().trim(),
+  );
+  const nameSet = new Set(names);
+
+  if (names.length !== nameSet.size) {
+    return { duplicateNames: true };
+  }
+
+  return null;
+};

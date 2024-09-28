@@ -13,23 +13,36 @@
     </span>
   </div>
 
-  <div *ngFor="let task of tasksFiltered; let i = index" class="task-item"[class.success]="task.success">
+  <div
+    *ngFor="let todo of todos$ | async; let i = index"
+    class="task-item"
+    [class.success]="todo.success"
+  >
     <div class="task-header">
       <span class="task-number">{{ i + 1 }}.</span>
       <span class="task-status">
-        <input type="checkbox" [checked]="task.success" (change)="toggleTask(task.id)" />
+        <input
+          type="checkbox"
+          [checked]="todo.success"
+          (change)="toggleTodoSuccess(todo)"
+        />
       </span>
-      <span class="task-title">{{ task.name }}</span>
-      <span class="task-date">{{ task.deadline }}</span>
+      <span class="task-title">{{ todo.name }}</span>
+      <span class="task-date">{{ todo.deadline }}</span>
     </div>
     <div class="task-details">
       <p>Personas Asociadas:</p>
       <ul>
-        <li *ngFor="let responsible of task.responsibles">
+        <li *ngFor="let responsible of todo.responsibles">
           - {{ responsible.fullName }}
           <span class="person-age">({{ responsible.age }})</span>
           <br />
           <span class="person-skills">Habilidades: </span>
+          <ul>
+            <li *ngFor="let skill of responsible.skills">
+              {{ skill.skill }}
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

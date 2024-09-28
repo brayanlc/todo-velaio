@@ -1,5 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppState } from '../../../store/store';
+import { Store } from '@ngrx/store';
+import { Todo } from '../../../store/todo.model';
+import { Observable } from 'rxjs';
+import * as TodoActions from '../../../store/actions';
+import {
+  selectTodoPending,
+  selectTodos,
+  selectTodoSuccess,
+} from '../../../store/selectors';
 
 @Component({
   selector: 'app-list-todo',
@@ -9,78 +19,33 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./list-todo.component.scss'],
 })
 export class ListTodoComponent {
-  tasks = [
-    {
-      id: 1,
-      name: 'Tarea A',
-      deadline: '2024-10-01',
-      success: false,
-      responsibles: [
-        {
-          fullName: 'Juan Pérez',
-          age: 25,
-          skills: [{ skill: 'JavaScript' }, { skill: 'Angular' }],
-        },
-        {
-          fullName: 'María López',
-          age: 30,
-          skills: [{ skill: 'TypeScript' }, { skill: 'CSS' }],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Tarea B',
-      deadline: '2024-09-25',
-      success: true,
-      responsibles: [
-        {
-          fullName: 'Carlos Gómez',
-          age: 40,
-          skills: [{ skill: 'HTML' }, { skill: 'SCSS' }],
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Tarea C',
-      deadline: '2024-11-15',
-      success: false,
-      responsibles: [
-        {
-          fullName: 'Ana Martínez',
-          age: 28,
-          skills: [{ skill: 'React' }, { skill: 'Node.js' }],
-        },
-        {
-          fullName: 'Luis Rodríguez',
-          age: 35,
-          skills: [{ skill: 'Vue.js' }, { skill: 'MongoDB' }],
-        },
-      ],
-    },
-  ];
+  private store = inject(Store<AppState>);
 
-  tasksFiltered = this.tasks;
+  todos$: Observable<Todo[]>;
+
+  constructor() {
+    this.todos$ = this.store.select(selectTodos);
+  }
 
   successTasks() {
-    this.tasksFiltered = this.tasks.filter((task) => task.success);
+    this.todos$ = this.store.select(selectTodoSuccess);
   }
 
   pendingTasks() {
-    this.tasksFiltered = this.tasks.filter((task) => !task.success);
+    this.todos$ = this.store.select(selectTodoPending);
   }
 
   allTasks() {
-    this.tasksFiltered = this.tasks;
+    this.todos$ = this.store.select(selectTodos);
   }
 
-  toggleTask(id: number) {
-    this.tasks = this.tasks.map((task) => {
-      if (task.id === id) {
-        task.success = !task.success;
-      }
-      return task;
-    });
+  toggleTodoSuccess(todo: Todo) {
+    this.store.dispatch(
+      TodoActions.updateTodo({ todo: { ...todo, success: !todo.success } }),
+    );
+  }
+
+  loadTodos() {
+    this.store.dispatch(TodoActions.loadTodos());
   }
 }
