@@ -1,51 +1,35 @@
-<p>list-todo works!</p>
 <div class="task-list">
   <h2>Lista de Tareas</h2>
 
   <div class="filters">
-    <span class="filter">[<a href="#">Todas</a>]</span>
-    <span class="filter">[<a href="#">Completadas</a>]</span>
-    <span class="filter">[<a href="#">Pendientes</a>]</span>
+    <span class="filter">
+      <button (click)="allTasks()">Todas</button>
+    </span>
+    <span class="filter">
+      <button (click)="successTasks()">Completadas</button>
+    </span>
+    <span class="filter">
+      <button (click)="pendingTasks()">Pendientes</button>
+    </span>
   </div>
 
-  <div class="task-item">
+  <div *ngFor="let task of tasksFiltered; let i = index" class="task-item"[class.success]="task.success">
     <div class="task-header">
-      <span class="task-number">1.</span>
-      <span class="task-status">[ ]</span>
-      <span class="task-title">Tarea A</span>
-      <span class="task-date">- 2024-10-01</span>
+      <span class="task-number">{{ i + 1 }}.</span>
+      <span class="task-status">
+        <input type="checkbox" [checked]="task.success" (change)="toggleTask(task.id)" />
+      </span>
+      <span class="task-title">{{ task.name }}</span>
+      <span class="task-date">{{ task.deadline }}</span>
     </div>
     <div class="task-details">
       <p>Personas Asociadas:</p>
       <ul>
-        <li>
-          - Juan Pérez <span class="person-age">(25)</span>
+        <li *ngFor="let responsible of task.responsibles">
+          - {{ responsible.fullName }}
+          <span class="person-age">({{ responsible.age }})</span>
           <br />
-          <span class="person-skills">Habilidades: JavaScript, Angular</span>
-        </li>
-        <li>
-          - María López <span class="person-age">(30)</span>
-          <br />
-          <span class="person-skills">Habilidades: TypeScript, CSS</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="task-item">
-    <div class="task-header">
-      <span class="task-number">2.</span>
-      <span class="task-status">[x]</span>
-      <span class="task-title">Tarea B</span>
-      <span class="task-date">- 2024-09-25</span>
-    </div>
-    <div class="task-details">
-      <p>Personas Asociadas:</p>
-      <ul>
-        <li>
-          - Carlos Gómez <span class="person-age">(40)</span>
-          <br />
-          <span class="person-skills">Habilidades: HTML, SCSS</span>
+          <span class="person-skills">Habilidades: </span>
         </li>
       </ul>
     </div>

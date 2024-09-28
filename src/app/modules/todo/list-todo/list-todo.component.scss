@@ -41,6 +41,11 @@ $margin: 15px;
     margin-bottom: $margin;
     background-color: #fff;
 
+    &.success {
+      border-color: #28a745;
+      filter: brightness(90%);
+    }
+
     .task-header {
       display: flex;
       align-items: center;
