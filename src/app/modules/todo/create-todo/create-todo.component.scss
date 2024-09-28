@@ -1,0 +1,109 @@
+$primary-color: #4a90e2;
+$secondary-color: #f4f4f4;
+$border-radius: 5px;
+$padding: 10px;
+$margin: 15px 0;
+$font-size: 16px;
+
+.task-form {
+  background-color: $secondary-color;
+  padding: $padding * 2;
+  border-radius: $border-radius;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: $margin;
+    color: $primary-color;
+  }
+
+  .form-group {
+    margin-bottom: $margin;
+
+    label {
+      display: block;
+      font-size: $font-size;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: $padding;
+      border: 1px solid #ccc;
+      border-radius: $border-radius;
+      font-size: $font-size;
+    }
+  }
+
+  .associated-people {
+    background-color: #fff;
+    padding: $padding;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    margin-top: $margin;
+
+    h3 {
+      margin-bottom: $padding;
+      color: $primary-color;
+    }
+
+    .person-details {
+      margin-bottom: $margin;
+
+      .form-group {
+        margin-bottom: $padding;
+
+        input {
+          margin-top: 5px;
+        }
+      }
+    }
+
+    .skills-section {
+      margin-top: $margin;
+
+      h4 {
+        color: $primary-color;
+        margin-bottom: $padding;
+      }
+
+      .skill-input {
+        display: flex;
+        align-items: center;
+
+        label {
+          margin-right: $padding;
+          flex-shrink: 0;
+        }
+
+        input[type="text"] {
+          flex-grow: 1;
+          margin-right: $padding;
+        }
+
+        button {
+          padding: $padding;
+          margin-left: $padding / 2;
+          background-color: $primary-color;
+          color: #fff;
+          border: none;
+          border-radius: $border-radius;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: darken($primary-color, 10%);
+          }
+
+          &:first-of-type {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+}

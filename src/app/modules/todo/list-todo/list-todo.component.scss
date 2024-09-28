@@ -1,0 +1,98 @@
+$primary-color: #ff007f;
+$secondary-color: #333;
+$background-color: #f8f9fa;
+$border-color: #ccc;
+$padding: 10px;
+$margin: 15px;
+
+.task-list {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: $background-color;
+  padding: $padding;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    color: $secondary-color;
+    border-bottom: 2px solid $border-color;
+    padding-bottom: $padding / 2;
+    margin-bottom: $margin;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: $padding;
+    margin-bottom: $margin;
+
+    .filter a {
+      text-decoration: none;
+      color: $primary-color;
+      font-weight: bold;
+    }
+  }
+
+  .task-item {
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    padding: $padding;
+    margin-bottom: $margin;
+    background-color: #fff;
+
+    .task-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid $border-color;
+      padding-bottom: $padding / 2;
+      margin-bottom: $padding / 2;
+
+      .task-number {
+        font-weight: bold;
+        color: $primary-color;
+      }
+
+      .task-status {
+        color: $secondary-color;
+      }
+
+      .task-title {
+        font-weight: bold;
+      }
+
+      .task-date {
+        color: $primary-color;
+      }
+    }
+
+    .task-details {
+      p {
+        margin: 0;
+        font-weight: bold;
+        color: $secondary-color;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-top: $padding / 2;
+
+          .person-age {
+            color: $primary-color;
+            font-weight: bold;
+          }
+
+          .person-skills {
+            display: block;
+            color: $secondary-color;
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+  }
+}

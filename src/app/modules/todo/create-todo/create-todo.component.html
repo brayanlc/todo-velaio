@@ -1,0 +1,72 @@
+<h2>Crear tarea</h2>
+
+<form class="task-form" [formGroup]="todoForm">
+  <div class="form-group">
+    <label for="task-name">Nombre de la tarea</label>
+    <input type="text" id="task-name" />
+  </div>
+
+  <div class="form-group">
+    <label for="task-deadline">Fecha límite de la tarea</label>
+    <input type="date" id="task-deadline" />
+  </div>
+
+  <div class="associated-people">
+    <h3>Personas asociadas</h3>
+
+    <ng-container formArrayName="responsibles">
+      <div
+        class="person-details"
+        *ngFor="let person of responsables.controls; let i = index"
+      >
+        <div class="form-group">
+          <label for="person-name">Nombre completo</label>
+          <input type="text" id="person-name" />
+        </div>
+
+        <div class="form-group">
+          <label for="person-age">Edad</label>
+          <input type="text" id="person-age" />
+        </div>
+
+        <div class="skills-section">
+          <h4>Habilidades:</h4>
+          <ng-container formArrayName="skills">
+            <div
+              class="skill-input"
+              *ngFor="let skill of skills(i).controls; let j = index"
+            >
+              <label for="skill">Habilidad</label>
+              <input type="text" id="skill" />
+              <button type="button" class="add-skill" (click)="addSkill(i)">
+                Agregar
+              </button>
+              <button
+                type="button"
+                class="remove-skill"
+                (click)="removeSkill(i, j)"
+              >
+                Eliminar
+              </button>
+            </div>
+          </ng-container>
+        </div>
+
+        <button type="button" class="add-person" (click)="addResponsible()">
+          Agregar persona
+        </button>
+        <button
+          type="button"
+          class="remove-person"
+          (click)="removeResponsible(i)"
+        >
+          Eliminar persona
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <button type="submit" class="create-task" (click)="createTask()">
+    Crear tarea
+  </button>
+</form>
