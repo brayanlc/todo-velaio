@@ -5,6 +5,11 @@ import { CreateTodoComponent } from './modules/todo/create-todo/create-todo.comp
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/todo/list',
+    pathMatch: 'full',
+  },
+  {
     path: 'todo',
     children: [
       {

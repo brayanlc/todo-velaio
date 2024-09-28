@@ -14,6 +14,7 @@ import { Todo } from '../../../store/todo.model';
 import * as TodoActions from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/store';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-todo',
@@ -25,6 +26,7 @@ import { AppState } from '../../../store/store';
 export class CreateTodoComponent {
   private fb: FormBuilder = inject(FormBuilder);
   private store = inject(Store<AppState>);
+  private router = inject(Router);
 
   public todoForm = this.fb.nonNullable.group({
     name: ['', Validators.required],
@@ -108,6 +110,7 @@ export class CreateTodoComponent {
         todo: { ...todo, id: uuidv4() },
       }),
     );
+    this.router.navigate(['/']);
   }
 }
 
